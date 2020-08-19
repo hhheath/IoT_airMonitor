@@ -109,13 +109,12 @@ void setup()
  * optionally add double bmeTemp and uncomment root["tempC"] = bmeTemp in loop
  * optionally add double pressureInches and uncomment root["pressureInches"] in loop
  */
-void reportTemp(double bmeTemp, double bmeTempF, double bmePress, double bmeHumidity)
+void reportTemp(double bmeTemp, double bmePress, double bmeHumidity)
 {
   StaticJsonDocument<200> root;
   // JsonObject &root = jsonBuffer.createObject();
   // DynamicJsonDocument root(1024);
-  root["tempC"] = bmeTemp;
-  root["tempF"] = bmeTempF;
+  root["temperature"] = bmeTemp;
   root["humidity"] = bmeHumidity;
   root["pressure"] = bmePress;
   JsonObject object = root.as<JsonObject>();
@@ -142,11 +141,10 @@ void loop()
     return;
   }
   double bmeTemp = bme.temperature;
-  double bmeTempF = (bme.temperature * 1.8) + 32;
   double bmePress = bme.pressure / 100.0;
   double bmeHumidity = bme.humidity;
 
-  reportTemp(bmeTemp, bmeTempF, bmePress, bmeHumidity);
+  reportTemp(bmeTemp, bmePress, bmeHumidity);
 
   //* report temp && check wifi connectivity every 5 seconds
   delay(5000);
